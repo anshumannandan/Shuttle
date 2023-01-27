@@ -22,21 +22,37 @@ class listWAREHOUSEView(generics.ListAPIView):
 
     def get_queryset(self):
         try:
-            bobj = Business.objects.get(name = self.request.data['business'])
+            bobj = Business.objects.get(name = self.request.GET.get('business'))
         except:
             raise CustomError("business doesn't exist")
         return bobj.warehouses.all()
-
-class DistanceView(APIView):
-    
-    def post(self, request):
-        serializer = DistanceSerializer(data=request.data)
-        serializer.is_valid(raise_exception=True)
-        data = serializer.validated_data
-        return Response([data])
 
 
 class CountryListView(APIView):
     
     def get(self, request):
         return Response(get_country_list())
+
+
+class warehouseRUDView(generics.RetrieveUpdateDestroyAPIView):
+    permission_classes = [IsAuthenticated]
+    serializer_class = WarehouseSerializer
+        
+    def get_queryset(self):
+        return Warehouse.objects.all()
+
+
+class warehouseCreateView(generics.CreateAPIView):
+    permission_classes = [IsAuthenticated]
+    serializer_class = WarehouseSerializer
+
+    def get_serializer_context(self):
+        context = super().get_serializer_context()
+        context.update({"request": self.request})
+        return context
+
+
+class listCategoryView(generics.ListCreateAPIView):
+    permission_classes = [IsAuthenticated]
+    serializer_class = CategorySerializer
+    queryset = Category.objects.all()
