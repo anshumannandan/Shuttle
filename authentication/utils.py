@@ -105,4 +105,10 @@ def send_email(subject, html_content, recepient):
             )
     email.attach_alternative(html_content, "text/html")
     email.send()
-    return subject + ' EMAIL SENT'
+
+
+def send_signup_otp(obj):
+    otp = obj.otp
+    mailaddress = obj.email
+    html_content = render_to_string("verification.html", {"otp": otp})
+    send_email("Shuttle Verification", html_content, mailaddress)

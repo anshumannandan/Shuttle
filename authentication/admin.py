@@ -23,6 +23,9 @@ class BusinessAdmin(BaseUserAdmin):
 class EOAdmin(ModelAdmin):
     list_display = ['user', 'otp', 'created_time']
 
+class SUAdmin(ModelAdmin):
+    list_display = ['email', 'otp']
+
 
 admin.site.register(Business, BusinessAdmin)
-admin.site.register(Email_OTP, EOAdmin)
+admin.site.register(Sign_up_user, SUAdmin)

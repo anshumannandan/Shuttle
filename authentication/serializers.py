@@ -1,6 +1,6 @@
-from rest_framework.serializers import Serializer, EmailField, CharField, IntegerField
+from rest_framework.serializers import Serializer, EmailField, CharField, IntegerField, ModelSerializer
 from django.contrib.auth import authenticate
-from .models import Business
+from .models import Business, Sign_up_user
 from .utils import *
 from django.contrib.auth.hashers import make_password
 
@@ -73,3 +73,50 @@ class ResetPasswordSerializer(Serializer):
         instance.password = make_password(validated_data['password'])
         instance.save()
         return instance
+
+
+class SignUPSerializer(ModelSerializer):
+    class Meta:
+        model = Sign_up_user
+        fields = '__all__'
+
+    def validate(self, data):
+        try:
+            Business.objects.get(email = data['email'])
+        except:
+            return data
+        raise CustomError('User with this account already exist')
+
+
+    def to_representation(self, instance):
+        send_signup_otp(instance)
+        return {'message' : ['OTP sent on mail']}
+
+
+class VerifySignUpSerializer(Serializer):
+    email = EmailField()
+    otp = IntegerField()
+    name = CharField(max_length = 255)
+    password = CharField(max_length = 255)
+
+    def validate(self, data):
+        try:
+            suu = Sign_up_user.objects.get(email = data['email'])
+        except:
+            raise CustomError('raise an otp first, does not exist')
+        if suu.otp != data['otp']:
+            raise CustomError('invalid otp')
+        passresponse = validatePASS(data['password'])
+        if not passresponse == 'OK':
+            raise CustomError(passresponse)
+        data['instance'] = suu
+        return data
+
+    def create(self, validated_data):
+        obj = Business.objects.create(
+            email = validated_data['email'],
+            password = make_password(validated_data['password']),
+            name = validated_data['name']
+        )
+        validated_data['instance'].delete()
+        return validated_data

@@ -5,6 +5,10 @@ from django.db.models import CASCADE
 from django.contrib.auth.models import AbstractBaseUser, BaseUserManager
 from rest_framework_simplejwt.tokens import RefreshToken
 import datetime
+from django.db.models.signals import post_save
+from django.dispatch import receiver
+import random
+from django.utils import timezone
 
 
 class UserManager(BaseUserManager):
@@ -63,3 +67,16 @@ class Email_OTP(Model):
     user = OneToOneField(Business, on_delete=CASCADE, related_name='emailotp')
     otp = IntegerField(blank=True, null=True)
     created_time = DateTimeField(default=datetime.datetime(1000, 1, 1, 0, 0, 0))
+
+
+class Sign_up_user(Model):
+    email = EmailField(max_length=255, unique=True)
+    otp = IntegerField(blank=True, null=True)
+    created_time = DateTimeField(default=datetime.datetime(1000, 1, 1, 0, 0, 0))
+
+@receiver(post_save, sender=Sign_up_user)
+def create_referal_code(sender, instance, created, **kwargs):
+    if created:
+        instance.otp = random.randint(1000, 9999)
+        instance.created_time = timezone.now()
+        instance.save()

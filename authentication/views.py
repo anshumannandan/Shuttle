@@ -1,4 +1,4 @@
-from rest_framework.generics import UpdateAPIView
+from rest_framework.generics import UpdateAPIView, CreateAPIView
 from .serializers import *
 from rest_framework.permissions import AllowAny
 from rest_framework.response import Response
@@ -43,3 +43,13 @@ class ResetPasswordView(UpdateAPIView):
     def patch(self, request, *args, **kwargs):
         self.update(request,*args, **kwargs)
         return Response({'messsage':['Password changed successfully']}, status=status.HTTP_200_OK)
+
+
+class SignUPView(CreateAPIView):
+    permission_classes = [AllowAny]
+    serializer_class = SignUPSerializer
+
+
+class VerifySignUPView(CreateAPIView):
+    permission_classes = [AllowAny]
+    serializer_class = VerifySignUpSerializer
