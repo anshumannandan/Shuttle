@@ -1,13 +1,12 @@
-import imp
 from django.urls import path
-from .models import Business
-from . import views
 from .views import *
+from rest_framework_simplejwt.views import TokenRefreshView
 
-from rest_framework_simplejwt.views import (
-    TokenRefreshView,
-)
 
 urlpatterns = [
-    path('login/', Login_user.as_view(), name='token_obtain_pair'),
+    path('token/', TokenRefreshView.as_view()),
+    path('login/', LoginView.as_view()),
+    path('sendemailOTP/', SendOTPEmailView.as_view()),
+    path('verifyemailOTP/', VerifyOTPEmailView.as_view()),
+    path('resetpassword/', ResetPasswordView.as_view()),
 ]
