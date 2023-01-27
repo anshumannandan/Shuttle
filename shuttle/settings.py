@@ -46,6 +46,7 @@ INSTALLED_APPS = [
     'rest_framework',
     'authentication',
     'warehouse',
+    'Modeltesting',
     'rest_framework_simplejwt',
     'django.contrib.postgres',
 ]

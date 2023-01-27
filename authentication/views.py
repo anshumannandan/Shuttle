@@ -43,3 +43,9 @@ class ResetPasswordView(UpdateAPIView):
     def patch(self, request, *args, **kwargs):
         self.update(request,*args, **kwargs)
         return Response({'messsage':['Password changed successfully']}, status=status.HTTP_200_OK)
+
+
+# class SignUpView(APIView):
+#     permission_classes = [AllowAny]
+#     def post(self, request):
+
