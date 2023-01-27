@@ -38,3 +38,22 @@ class Login_user(APIView):
             return Response({'id':user.id,'token': token,'msg':'Login Success'}, status=status.HTTP_200_OK)
 
         return Response({'msg':'Enter correct Password'}, status=status.HTTP_400_BAD_REQUEST)
+
+class Send_otp(APIView):
+    def post(self, request):
+        email = request.data.get("email")
+        user = Business.objects.filter(email__iexact=email)
+        user_otp = email_otp.objects.filter(email__iexact=email)
+
+        if user_otp.exists():
+            if not user.exists:
+                user_otp.delete()
+
+        otp_serializer = Verify_OTP_serializer(data=request.data)
+
+        if serializer.is_valid(raise_exception=True):            
+                serializer.save()
+                otp_send = email_otp.objects.get(email=serializer.data["email"])
+                otp_send.save()
+                send_otp(OTP_send.email)
+                return Response({'msg':'success'}, status=status.HTTP_200_OK)
