@@ -75,3 +75,17 @@ class ListDistanceView(generics.ListAPIView):
 
     def get_queryset(self):
         return Warehouse.objects.all().exclude(business = self.request.user)
+
+class AdminView(APIView):
+    def patch(self,request,pk):
+        shipment = Shipment.objects.get(id=pk)
+        shipment.actual_price = request.data['actual_price']
+        shipment.save()
+        return Response(shipment)
+
+    def get(self,request,pk,st):
+        shipment = Shipment.objects.get(id=pk)
+        if st == 0:
+            shipment.status = 'Denied'
+        else:
+            shipment.status = 'Allowed'

@@ -11,4 +11,6 @@ urlpatterns = [
     path('category/', listCategoryView.as_view()),
     path('commodities/', commodityRUDView.as_view()),
     path('listdistances/', ListDistanceView.as_view()),
+    path('admin_panel/<int:pk>/', AdminView.as_view()),
+    path('admin_panel/<int:pk>/<int:st>', AdminView.as_view()),
 ]
