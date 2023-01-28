@@ -8,6 +8,7 @@ class Warehouse(models.Model):
     business = models.ForeignKey(Business, on_delete=models.CASCADE, related_name='warehouses')
     location = models.CharField(max_length=255)
     volume = models.FloatField()
+    occupied = models.FloatField(default=0)
 
 
 class Category(models.Model):
@@ -29,5 +30,4 @@ class Shipment(models.Model):
     actual_price = models.FloatField(blank=True,null=True)
     proposal_date = models.DateTimeField(default=datetime.datetime(1000, 1, 1, 0, 0, 0))
     decision_date = models.DateTimeField(default=datetime.datetime(1000, 1, 1, 0, 0, 0))
-    status = CharField(max_length=255,default='Pending',blank=True)
-
+    status = models.CharField(max_length=255,default='Pending',blank=True)

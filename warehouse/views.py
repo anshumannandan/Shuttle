@@ -56,7 +56,7 @@ class listCategoryView(generics.ListCreateAPIView):
     queryset = Category.objects.all()
 
 
-class commodityRUDView(generics.ListAPIView):
+class commodityRUDView(generics.ListCreateAPIView):
     permission_classes = [IsAuthenticated]
     serializer_class = CommoditySerializer
 
