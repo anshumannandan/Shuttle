@@ -93,3 +93,8 @@ class ShipmentSerializer(serializers.ModelSerializer):
         obj.predicted_price = predicted_price(obj.quantity, commo.volume, float(distance))
         obj.save()
         return obj
+
+class ShipmentPriceSerializer(serializers.ModelSerializer):
+    class Meta:
+        model = Shipment
+        fields = ['actual_price']

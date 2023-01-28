@@ -76,6 +76,27 @@ class ListDistanceView(generics.ListAPIView):
     def get_queryset(self):
         return Warehouse.objects.all().exclude(business = self.request.user)
 
+class AdminView(APIView):
+    def patch(self,request,pk):
+        shipment = Shipment.objects.get(id=pk)
+        ser = ShipmentPriceSerializer(data = request.data)
+        ser.is_valid(raise_exception = True)
+        shipment.actual_price = ser.data['actual_price']
+        shipment.save()
+        return Response(shipment.actual_price)
+
+    def get(self,request,pk,st):
+        shipment = Shipment.objects.filter(id=pk)
+        if len(shipment)!=0:
+            shipment = Shipment.objects.get(id=pk)
+            if st == 0:
+                shipment.status = 'Denied'
+                shipment.save()
+                return Response("shipment denied")
+            shipment.status = 'Allowed'
+            shipment.save()
+            return Response("shipment approved")
+        return Response("id not found")
 
 class ShipmentView(generics.CreateAPIView):
     permission_classes = [IsAuthenticated]

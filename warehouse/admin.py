@@ -13,6 +13,9 @@ class CategoryAdmin(admin.ModelAdmin):
 class CommodityAdmin(admin.ModelAdmin):
     list_display = ['warehouse', 'category', 'quantity']
 
+class ShipmentAdmin(admin.ModelAdmin):
+    list_display = ['sender', 'reciever', 'status']
+
 
 admin.site.register(Warehouse, WarehouseAdmin)
 admin.site.register(Category, CategoryAdmin)

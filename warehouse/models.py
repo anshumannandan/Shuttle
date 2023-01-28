@@ -1,5 +1,6 @@
 from django.db import models
 from authentication.models import Business
+import datetime
 from uuid import uuid1
 
 
@@ -20,7 +21,6 @@ class Commodity(models.Model):
     name = models.CharField(max_length=255, null=True, blank=True)
     quantity = models.IntegerField()
     volume = models.FloatField()
-
 
 class Shipment(models.Model):
     uuid = models.UUIDField(default=uuid1())

@@ -33,10 +33,12 @@ def get_distance(con1, con2):
     return distance
 
 
-model = load('./Savedmodels/mlmodels.joblib')
+model = load('./Savedmodels/ml-models.joblib')
 
 def predicted_price(quantity, volume, distance):
     fields = ([[quantity, volume, distance]])
     field= np.array(fields).reshape((1,-1))
     freight = model.predict(field)
     return freight[0]
+
+print(predicted_price(71,12,5940.83))
