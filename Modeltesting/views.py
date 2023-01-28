@@ -6,13 +6,13 @@ from joblib import load
 from rest_framework import status
 import numpy as np
 
-model = load('./Savedmodels/models.joblib')
+model = load('./Savedmodels/mlmodels.joblib')
 
 # Create your views here.
 class TestView(APIView):
     def get(self,request):
-        fields = ([[56,12,5940.83]])
-        fields= np.array(fields).reshape((1,-1))
-        ans = model.predict(fields)
+        fields = ([[1,12,7758.77]])
+        field= np.array(fields).reshape((1,-1))
+        ans = model.predict(field)
         print(ans)
         return Response(ans)
