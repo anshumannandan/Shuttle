@@ -98,6 +98,9 @@ class AdminView(APIView):
             return Response("shipment approved")
         return Response("id not found")
 
-class ShipmentView(generics.CreateAPIView):
+class ShipmentView(generics.ListCreateAPIView):
     permission_classes = [IsAuthenticated]
     serializer_class = ShipmentSerializer
+
+    def get_queryset(self):
+        return Shipment.objects.all()
