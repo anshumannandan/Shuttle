@@ -2,9 +2,14 @@ import pandas
 from authentication.utils import CustomError
 
 
-def get_country_list():
+def return_file_content():
     file = pandas.read_csv('files/distances.csv')
-    data = file.to_csv().strip()
+    return file.to_csv().strip()
+
+data = return_file_content()
+
+
+def get_country_list():
     data = data.split('\n')[0].strip()[3:]
     country_list = data.split(',')
     return country_list
@@ -20,7 +25,5 @@ def get_distance(con1, con2):
             f2 = i+1
     if f1 is None or f2 is None:
         raise CustomError('either of the countries in invalid')
-    file = pandas.read_csv('files/distances.csv')
-    data = file.to_csv().strip()
     distance = data.split('\n')[f1].strip()[2:].split(',')[f2]
     return distance

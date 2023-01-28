@@ -37,9 +37,7 @@ class CountryListView(APIView):
 class warehouseRUDView(generics.RetrieveUpdateDestroyAPIView):
     permission_classes = [IsAuthenticated]
     serializer_class = WarehouseSerializer
-        
-    def get_queryset(self):
-        return Warehouse.objects.all()
+    queryset = Warehouse.objects.all()
 
 
 class warehouseCreateView(generics.CreateAPIView):
@@ -56,3 +54,9 @@ class listCategoryView(generics.ListCreateAPIView):
     permission_classes = [IsAuthenticated]
     serializer_class = CategorySerializer
     queryset = Category.objects.all()
+
+
+class commodityRUDView(generics.RetrieveUpdateDestroyAPIView):
+    permission_classes = [IsAuthenticated]
+    serializer_class = CommoditySerializer
+    queryset = Commodity.objects.all()

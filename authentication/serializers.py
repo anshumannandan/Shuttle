@@ -10,6 +10,7 @@ class LoginSerializer(Serializer):
     password = CharField(write_only = True)
     refresh = CharField(read_only = True)
     access = CharField(read_only = True)
+    name = CharField(read_only = True)
 
     def validate(self,data):
         inemail = normalize_email(data['email'])
@@ -20,6 +21,7 @@ class LoginSerializer(Serializer):
             raise CustomError('Invalid Credentials')
         data['refresh'] = user.refresh
         data['access'] = user.access
+        data['name'] = user.name
         return data
 
 
