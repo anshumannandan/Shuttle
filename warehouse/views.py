@@ -23,9 +23,9 @@ class listWAREHOUSEView(generics.ListAPIView):
     def get_queryset(self):
         try:
             bobj = Business.objects.get(name = self.request.GET.get('business'))
+            return bobj.warehouses.all()
         except:
-            raise CustomError("business doesn't exist")
-        return bobj.warehouses.all()
+            return Warehouse.objects.all()
 
 
 class CountryListView(APIView):
@@ -62,3 +62,16 @@ class commodityRUDView(generics.ListCreateAPIView):
 
     def get_queryset(self):
         return Commodity.objects.filter(warehouse = self.request.GET.get('warehouse'))
+
+
+class ListDistanceView(generics.ListAPIView):
+    permission_classes = [IsAuthenticated]
+    serializer_class = DistanceWarehouseSerializer
+
+    def get_serializer_context(self):
+        context = super().get_serializer_context()
+        context.update({"request": self.request})
+        return context
+
+    def get_queryset(self):
+        return Warehouse.objects.all().exclude(business = self.request.user)

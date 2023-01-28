@@ -19,6 +19,10 @@ class WarehouseSerializer(serializers.ModelSerializer):
         validated_data['business'] = self.context['request'].user
         return super().create(validated_data)
 
+    def update(self, instance, validated_data):
+        validated_data['business'] = self.context['request'].user
+        return super().update(instance, validated_data)
+
     def to_representation(self, instance):
         data = super().to_representation(instance)
         bus_obj = Business.objects.get(id = data['business'])
@@ -50,4 +54,23 @@ class CommoditySerializer(serializers.ModelSerializer):
     def to_representation(self, instance):
         data = super().to_representation(instance)
         data['category'] = Category.objects.get(id = data['category']).name
+        return data
+
+
+class ShipmentSerializer(serializers.ModelSerializer):
+    class Meta:
+        model = Shipment
+        fields = '__all__'
+
+
+class DistanceWarehouseSerializer(serializers.ModelSerializer):
+    class Meta:
+        model = Warehouse
+        fields = ['location', 'volume', 'occupied']
+
+    def to_representation(self, instance):
+        data = super().to_representation(instance)
+        con1 = str(self.context['request'].GET.get('loc'))
+        con2 = str(data['location'])
+        data['distance'] = get_distance(con1, con2)
         return data
