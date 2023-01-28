@@ -9,5 +9,5 @@ urlpatterns = [
     path('warehouseRUD/<int:pk>/', warehouseRUDView.as_view()),
     path('warehouseCREATE/', warehouseCreateView.as_view()),
     path('category/', listCategoryView.as_view()),
-    path('commodityRUD/<int:pk>/', commodityRUDView.as_view()),
+    path('commodities/', commodityRUDView.as_view()),
 ]

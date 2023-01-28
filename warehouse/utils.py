@@ -12,6 +12,7 @@ data = return_file_content()
 
 
 def get_country_list():
+    global data
     data = data.split('\n')[0].strip()[3:]
     country_list = data.split(',')
     return country_list

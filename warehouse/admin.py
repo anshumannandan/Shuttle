@@ -3,7 +3,7 @@ from . models import *
 
 
 class WarehouseAdmin(admin.ModelAdmin):
-    list_display = ['business', 'location', 'max_quantity']
+    list_display = ['business', 'location']
 
 
 class CategoryAdmin(admin.ModelAdmin):

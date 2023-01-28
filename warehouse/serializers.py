@@ -20,6 +20,12 @@ class WarehouseSerializer(serializers.ModelSerializer):
         validated_data['business'] = self.context['request'].user
         return super().create(validated_data)
 
+    def to_representation(self, instance):
+        data = super().to_representation(instance)
+        bus_obj = Business.objects.get(id = data['business'])
+        data['business'] = bus_obj.name
+        return data
+
 
 class CategorySerializer(serializers.ModelSerializer):
     class Meta:
@@ -27,7 +33,7 @@ class CategorySerializer(serializers.ModelSerializer):
         fields = '__all__'
 
 
-class CommoditySerializer(serializers.Serializer):
+class CommoditySerializer(serializers.ModelSerializer):
     class Meta:
         model = Commodity
         fields = '__all__'

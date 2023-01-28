@@ -6,7 +6,6 @@ class Warehouse(models.Model):
     business = models.ForeignKey(Business, on_delete=models.CASCADE, related_name='warehouses')
     location = models.CharField(max_length=255)
     volume = models.FloatField()
-    max_quantity = models.IntegerField()
 
 
 class Category(models.Model):
@@ -15,6 +14,7 @@ class Category(models.Model):
 
 class Commodity(models.Model):
     warehouse = models.ForeignKey(Warehouse, on_delete=models.CASCADE, related_name = 'commodities')
-    category = models.CharField(max_length=255)
+    category = models.ForeignKey(Category, on_delete=models.CASCADE, related_name = 'category_commodities')
+    name = models.CharField(max_length=255, null=True, blank=True)
     quantity = models.IntegerField()
     volume = models.FloatField()

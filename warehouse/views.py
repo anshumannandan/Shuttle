@@ -56,7 +56,9 @@ class listCategoryView(generics.ListCreateAPIView):
     queryset = Category.objects.all()
 
 
-class commodityRUDView(generics.RetrieveUpdateDestroyAPIView):
+class commodityRUDView(generics.ListAPIView):
     permission_classes = [IsAuthenticated]
     serializer_class = CommoditySerializer
-    queryset = Commodity.objects.all()
+
+    def get_queryset(self):
+        return Commodity.objects.filter(warehouse = self.request.GET.get('warehouse'))
