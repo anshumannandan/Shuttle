@@ -57,12 +57,6 @@ class CommoditySerializer(serializers.ModelSerializer):
         return data
 
 
-class ShipmentSerializer(serializers.ModelSerializer):
-    class Meta:
-        model = Shipment
-        fields = '__all__'
-
-
 class DistanceWarehouseSerializer(serializers.ModelSerializer):
     class Meta:
         model = Warehouse
@@ -74,3 +68,28 @@ class DistanceWarehouseSerializer(serializers.ModelSerializer):
         con2 = str(data['location'])
         data['distance'] = get_distance(con1, con2)
         return data
+
+
+class ShipmentSerializer(serializers.ModelSerializer):
+    class Meta:
+        model = Shipment
+        fields = '__all__'
+
+    def create(self, validated_data):
+        commo = Commodity.objects.get(name = validated_data['commodity'])
+        obj = Shipment.objects.create(
+            sender = validated_data['sender'],
+            commodity = commo.name,
+            quantity = validated_data['quantity'],
+        )
+        con1 = validated_data['sender'].location
+        try:
+            con2 = validated_data['receiver'].location
+            obj.reciever = validated_data['receiver']
+        except:
+            con2 = validated_data['customer']
+            obj.customer = con2
+        distance = get_distance(con1, con2)
+        obj.predicted_price = predicted_price(obj.quantity, commo.volume, float(distance))
+        obj.save()
+        return obj

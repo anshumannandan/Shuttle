@@ -75,3 +75,8 @@ class ListDistanceView(generics.ListAPIView):
 
     def get_queryset(self):
         return Warehouse.objects.all().exclude(business = self.request.user)
+
+
+class ShipmentView(generics.CreateAPIView):
+    permission_classes = [IsAuthenticated]
+    serializer_class = ShipmentSerializer

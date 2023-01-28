@@ -11,4 +11,5 @@ urlpatterns = [
     path('category/', listCategoryView.as_view()),
     path('commodities/', commodityRUDView.as_view()),
     path('listdistances/', ListDistanceView.as_view()),
+    path('shipment/', ShipmentView.as_view()),
 ]

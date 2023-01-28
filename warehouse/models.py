@@ -1,6 +1,6 @@
 from django.db import models
 from authentication.models import Business
-import datetime
+from uuid import uuid1
 
 
 class Warehouse(models.Model):
@@ -23,11 +23,13 @@ class Commodity(models.Model):
 
 
 class Shipment(models.Model):
+    uuid = models.UUIDField(default=uuid1())
+    flow = models.IntegerField(default = 1)
     sender = models.ForeignKey(Warehouse, on_delete=models.CASCADE, related_name = 'senders')
     reciever = models.ForeignKey(Warehouse, on_delete=models.CASCADE, related_name = 'recievers',null=True,blank=True)
     customer = models.CharField(max_length=255,null=True,blank=True)
-    predicted_price = models.FloatField(blank=True,null=True)
+    commodity = models.CharField(max_length=255)
+    quantity = models.IntegerField()
+    predicted_price = models.FloatField(null= True, blank = True)
     actual_price = models.FloatField(blank=True,null=True)
-    proposal_date = models.DateTimeField(default=datetime.datetime(1000, 1, 1, 0, 0, 0))
-    decision_date = models.DateTimeField(default=datetime.datetime(1000, 1, 1, 0, 0, 0))
-    status = models.CharField(max_length=255,default='Pending',blank=True)
+    status = models.CharField(max_length=255,default='Pending')
