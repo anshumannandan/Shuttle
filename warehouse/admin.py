@@ -20,4 +20,4 @@ class ShipmentAdmin(admin.ModelAdmin):
 admin.site.register(Warehouse, WarehouseAdmin)
 admin.site.register(Category, CategoryAdmin)
 admin.site.register(Commodity, CommodityAdmin)
-admin.site.register(Shipment, ShipmentAdmin)
+admin.site.register(Shipment)

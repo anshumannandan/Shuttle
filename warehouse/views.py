@@ -89,3 +89,7 @@ class AdminView(APIView):
             shipment.status = 'Denied'
         else:
             shipment.status = 'Allowed'
+
+class ShipmentView(generics.CreateAPIView):
+    permission_classes = [IsAuthenticated]
+    serializer_class = ShipmentSerializer
