@@ -1,5 +1,7 @@
 import pandas
 from authentication.utils import CustomError
+from joblib import load
+import numpy as np
 
 
 def return_file_content():
@@ -27,3 +29,12 @@ def get_distance(con1, con2):
         raise CustomError('either of the countries in invalid')
     distance = data.split('\n')[f1].strip()[2:].split(',')[f2]
     return distance
+
+
+model = load('./Savedmodels/mlmodels.joblib')
+
+def predicted_price(quantity, volume, distance):
+    fields = ([[quantity, volume, distance]])
+    field= np.array(fields).reshape((1,-1))
+    freight = model.predict(field)
+    return freight[0]
