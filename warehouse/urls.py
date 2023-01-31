@@ -14,4 +14,5 @@ urlpatterns = [
     path('admin_panel/<int:pk>/', AdminView.as_view()),
     path('admin_panel/<int:pk>/<int:st>', AdminView.as_view()),
     path('shipment/', ShipmentView.as_view()),
+    path('shipdetails/', ShipDetailsView.as_view())
 ]

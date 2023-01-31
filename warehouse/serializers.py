@@ -94,6 +94,18 @@ class ShipmentSerializer(serializers.ModelSerializer):
         obj.save()
         return obj
 
+    def to_representation(self, instance):
+        data = super().to_representation(instance)
+        sid = data['sender']
+        data['sender'] = Warehouse.objects.get(id = sid).business.name
+        try:
+            rid = data['receiver']
+            data['receiver'] = Warehouse.objects.get(id = rid).business.name
+        except:
+            pass
+        return data
+
+
 class ShipmentPriceSerializer(serializers.ModelSerializer):
     class Meta:
         model = Shipment
